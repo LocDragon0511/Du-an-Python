@@ -1,5 +1,4 @@
 "use client"
-
 import { useState } from "react"
 import { Bot, User, Send } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -7,14 +6,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Navigation from "@/components/Navigation"
-
 interface Message {
   id: number
   type: "user" | "bot"
   content: string
   timestamp: Date
 }
-
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -26,37 +23,30 @@ export default function ChatPage() {
   ])
   const [inputMessage, setInputMessage] = useState("")
   const [isTyping, setIsTyping] = useState(false)
-
   const sendMessage = async () => {
     if (!inputMessage.trim()) return
-
     const userMessage: Message = {
       id: messages.length + 1,
       type: "user",
       content: inputMessage,
       timestamp: new Date(),
     }
-
     setMessages((prev) => [...prev, userMessage])
     setInputMessage("")
     setIsTyping(true)
-
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: inputMessage }),
       })
-
       const data = await res.json()
-
       const botMessage: Message = {
         id: messages.length + 2,
         type: "bot",
         content: data.answer || "Xin lỗi, tôi chưa hiểu câu hỏi của bạn.",
         timestamp: new Date(),
       }
-
       setMessages((prev) => [...prev, botMessage])
     } catch (err) {
       setMessages((prev) => [
@@ -72,14 +62,12 @@ export default function ChatPage() {
       setIsTyping(false)
     }
   }
-
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault()
       sendMessage()
     }
   }
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -153,7 +141,6 @@ export default function ChatPage() {
                   )}
                 </div>
               </ScrollArea>
-
               <div className="mt-4 flex space-x-2">
                 <Input
                   value={inputMessage}

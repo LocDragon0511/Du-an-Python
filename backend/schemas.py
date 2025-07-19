@@ -74,7 +74,7 @@ class AuthResponse(BaseModel):
     success: bool
     message: Optional[str] = None
     data: Optional[TokenResponse] = None
-
+    video_url: Optional[str] = None
 # Course schemas
 class CourseBase(BaseModel):
     title: str
@@ -83,9 +83,11 @@ class CourseBase(BaseModel):
     level: CourseLevel
     duration_weeks: Optional[int] = None
     thumbnail_url: Optional[str] = None
+    video_url: Optional[str] = None
 
 class CourseCreate(CourseBase):
     instructor_id: Optional[int] = None
+    video_url: Optional[str] = None
 
 class CourseUpdate(BaseModel):
     title: Optional[str] = None
@@ -95,6 +97,7 @@ class CourseUpdate(BaseModel):
     duration_weeks: Optional[int] = None
     thumbnail_url: Optional[str] = None
     status: Optional[CourseStatus] = None
+    video_url: Optional[str] = None
 
 class CourseResponse(CourseBase):
     model_config = ConfigDict(from_attributes=True)
@@ -105,6 +108,7 @@ class CourseResponse(CourseBase):
     created_at: datetime
     updated_at: datetime
     instructor: Optional[UserResponse] = None
+    video_url: Optional[str] = None
 
 # Course Enrollment schemas
 class EnrollmentBase(BaseModel):
@@ -124,6 +128,7 @@ class EnrollmentResponse(BaseModel):
     progress_percentage: int
     course: Optional[CourseResponse] = None
     user: Optional[UserResponse] = None
+    
 
 # System Log schemas
 class SystemLogCreate(BaseModel):

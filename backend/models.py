@@ -39,7 +39,8 @@ class Course(Base):
     status = Column(String(20), default="draft")  # draft, published, archived
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
-    
+    video_url = Column(String, nullable=True)
+
     # Relationships
     instructor = relationship("User", back_populates="courses_taught")
     enrollments = relationship("CourseEnrollment", back_populates="course")
